@@ -1,130 +1,96 @@
+HAND TRACKER PROTOTYPE
 
-# hand_tracker_prototype
+Real-time hand gesture tracking and interaction system using computer vision. Built with Python, OpenCV, and MediaPipe.
 
-A real-time hand tracking and visual effects system built with Python, OpenCV, and MediaPipe. Detects hand gestures from a live camera feed and generates synchronized visual effects based on detected gestures.
+This project detects hand landmarks from a live camera feed and generates visual effects such as motion trails, gesture recognition, and pinch-to-zoom interaction.
 
----
-
-
-## Features
+####  FEATURES
 
 - Real-time hand landmark detection (21 points per hand)
 - Hand skeleton rendering with joint connections
-- Bezier curve trail effect with Z-depth based thickness
-- EMA (Exponential Moving Average) smoothing for stable tracking
-- Distance-based gesture recognition (orientation independent)
-- Dot product thumb direction detection
-- Two-hand pinch-to-zoom with normalized distance and drift correction
-- FPS counter overlay
+- Smooth Bezier curve trail effects
+- EMA smoothing for stable tracking
+- Gesture recognition using geometric rules
+- Thumb direction detection using vector math
+- Two-hand pinch-to-zoom interaction
+- FPS counter display
 
----
+####  HOW IT WORKS
 
-## Gesture Controls
+The system uses MediaPipe to detect 21 hand landmarks per frame from a webcam feed.
 
-| Gesture | Effect |
-|---|---|
-| ✋ Open Hand | Purple bezier trail follows index fingertip |
-| ✊ Closed Fist | Trail clears + red screen flash |
-| ✌️ Peace Sign | Exits the program |
-| 🤏 Pinch | Trail color changes to blue |
-| 👍 Thumbs Up | thumb extended fingers closed |
-| 🤜🤛 Two Hands — One Fist + One Pinch | Pinch-to-zoom camera feed |
+These landmarks are used to:
+- Track finger positions
+- Detect finger states (open/closed)
+- Calculate distances and angles
+- Recognize gestures using rule-based logic
+- Trigger visual effects like trails, zoom, and flash
 
----
+####  GESTURE CONTROLS
 
-## Requirements
+- Open Hand → Purple trail follows finger
+- Closed Fist → Clears trail + red flash effect
+- Peace Sign → Exit program
+- Pinch → Blue trail mode
+- Thumbs Up → Thumb-based gesture detection
+- Two Hands (Fist + Pinch) → Pinch-to-zoom
+
+####  REQUIREMENTS
 
 - Python 3.11
-- Webcam or USB camera (tested with Pixel 6A in webcam mode)
+- Webcam
 
----
+####  INSTALLATION
 
-## Installation
-
-**1. Clone the repository**
-```bash
+--1. Clone repository:
 git clone https://github.com/yourusername/hand_tracker_prototype.git
 cd hand_tracker_prototype
-```
 
-**2. Create and activate a virtual environment**
-```bash
+--2. Create virtual environment:
 python -m venv venv
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Mac/Linux
-```
+source venv/bin/activate
 
-**3. Install dependencies**
-```bash
+--3. Install dependencies:
 pip install opencv-python mediapipe numpy
-```
 
-**4. Download the MediaPipe hand landmark model**
-```bash
-curl -o hand_landmarker.task -L https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task
-```
-Or on Windows PowerShell:
-```powershell
+####  DOWNLOAD MODEL FILE
+
+--macOS / Linux:
+curl -L -o hand_landmarker.task https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task
+
+--Windows:
 Invoke-WebRequest -Uri "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task" -OutFile "hand_landmarker.task"
-```
 
-**5. Run**
-```bash
+####  Place file in project root:
+hand_tracker_prototype/
+
+####  IMPORTANT
+
+hand_tracker_prototype/
+- handtrack.py
+- hand_landmarker.task
+
+####  RUN
+
 python handtrack.py
-```
 
----
+Press Q to quit.
 
-## Configuration
+####  CONFIGURATION
 
-At the top of `handtrack.py` you can adjust these constants:
+SMOOTHING_ALPHA = 0.3
+TRAIL_DURATION = 1
+FLASH_DURATION = 5
+PINCH_THRESHOLD = 0.08
+THUMBS_UP_THRESHOLD = 0.02
 
-```python
-SMOOTHING_ALPHA = 0.3      # lower = smoother, higher = more responsive
-TRAIL_DURATION = 1         # trail length in seconds
-FLASH_DURATION = 5         # flash duration in frames
-PINCH_THRESHOLD = 0.08     # pinch sensitivity
-THUMBS_UP_THRESHOLD = 0.02 # thumbs up sensitivity
-```
+####  TECH STACK
 
----
+- Python
+- OpenCV
+- MediaPipe
+- NumPy
 
-## Camera Setup
+AUTHOR
 
-By default the code uses camera index `1`. If using a built-in webcam change this line:
-
-```python
-cap = cv2.VideoCapture(1)  # change to 0 for built-in webcam
-```
-
-Press `Q` to quit.
-
----
-
-## Tech Stack
-
-- [Python 3.11](https://www.python.org/)
-- [OpenCV](https://opencv.org/) — camera feed, frame processing, drawing
-- [MediaPipe](https://ai.google.dev/edge/mediapipe/solutions/guide) — hand landmark detection
-- [NumPy](https://numpy.org/) — numerical operations
-
----
-
-## Roadmap
-
-- [ ] Threading for improved FPS
-- [ ] Kalman filter for smoother tracking
-- [ ] TouchDesigner integration for advanced visual effects
-- [ ] Pan gesture support
-- [ ] More gesture-to-effect mappings
-- [ ] Pre-recorded video file support
-
----
-
-## Author
-
-Built as a prototype during my first year of engineering — started from zero Python knowledge.
-
-
-
-
+Built it as a first year engineering student with no previous experience in python
